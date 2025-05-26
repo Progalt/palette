@@ -68,7 +68,7 @@ const ColorPaletteGenerator = () => {
               }
             }
 
-            let safeHints = input.hints != null ? input.hints : [];
+            const safeHints = input.hints != null ? input.hints : [];
             
             generatePalette(input.text, brightness, safeHints); 
           }}

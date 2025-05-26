@@ -42,7 +42,7 @@ const PaletteDisplay : React.FC<PaletteDisplayProps> = ({
       await navigator.clipboard.writeText(color.hex);
       setCopiedColor(color.hex);
       setTimeout(() => setCopiedColor(null), 2000);
-    } catch (err) {
+    } catch (err : unknown) {
       console.error('Failed to copy:', err);
     }
   };

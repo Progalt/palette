@@ -168,11 +168,11 @@ export async function POST(request: Request) {
         },
       }
     );
-  } catch (error: any) { 
+  } catch (error : unknown) { 
     console.error('Error processing request in /api/concat-strings:', error);
 
     return new Response(
-      JSON.stringify({ error: 'Internal Server Error', details: error.message }),
+      JSON.stringify({ error: 'Internal Server Error', details: error }),
       {
         status: 500,
         headers: {
