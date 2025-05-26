@@ -4,7 +4,7 @@ import { app } from "@/lib/Firebase";
 import { Check, Copy, Share } from "lucide-react";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
-import { ColourPalette } from "@/components/palette";
+import { ColourPalette, PaletteEntry } from "@/components/palette";
 import EmbeddablePaletteDemo from "./PaletteShowcase";
 
 interface PaletteDisplayProps {
@@ -37,7 +37,7 @@ const PaletteDisplay : React.FC<PaletteDisplayProps> = ({
 
     }, [ id ]);
 
-    const copyToClipboard = async (color : any) => {
+    const copyToClipboard = async (color : PaletteEntry) => {
     try {
       await navigator.clipboard.writeText(color.hex);
       setCopiedColor(color.hex);
