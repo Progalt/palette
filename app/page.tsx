@@ -44,9 +44,7 @@ const ColorPaletteGenerator = () => {
       
     } catch (error) {
       console.error('Error generating palette:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
 
@@ -74,22 +72,22 @@ const ColorPaletteGenerator = () => {
           }}
           isLoading={isLoading}
         /> : <>
-          
+          <div className="flex flex-row gap-4 items-center font-semibold text-lg">
+            <Sparkles
+              className="w-6 h-6 text-blue-600 animate-spin"
+              style={{
+                background: 'linear-gradient(to right, #2563eb, #8b5cf6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            />
+            <span className="bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+              Working our magic
+            </span>
+          </div>
         </> }
 
-        <div className="flex flex-row gap-4 items-center font-semibold text-lg">
-          <Sparkles
-            className="w-6 h-6 text-blue-600 animate-spin"
-            style={{
-              background: 'linear-gradient(to right, #2563eb, #8b5cf6)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          />
-          <span className="bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
-            Working our magic
-          </span>
-        </div>
+        
       </div>
      
     </div>
