@@ -18,13 +18,11 @@ const PromptInterface : React.FC<PromptInterfaceProps> = ({
     const [ promptInput, setPromptInput ] = useState<PromptInputData>({ text: "", hints: [] });
 
     return (
-        <div className="p-8 mb-8 ">
-          <div className="space-y-6">
+        <div className="p-8">
+          <div className="space-y-4">
             {/* Keywords Input */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">
-                Describe your vision
-              </label>
+             
               <PromptInput onChange={(input : PromptInputData) => {
                 setPromptInput(input);
                 console.log(input);

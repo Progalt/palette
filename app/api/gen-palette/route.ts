@@ -79,7 +79,7 @@ Generate a cohesive color palette optimized for ${mode} mode interfaces. Return 
     },
     
   ],
-  "theme": "descriptive theme name",
+  "theme": "descriptive short theme name",
   "accessibility": "WCAG compliance notes"
 }`,
       

@@ -78,6 +78,15 @@ const PromptInput : React.FC<PromptInputProps> = ({
             ...(color && { color })
         };
         setPills([...pills, newPill]);
+
+        setInputValue(prev => {
+            const lastSlashIndex = prev.lastIndexOf('/');
+            if (lastSlashIndex !== -1) {
+                return prev.slice(0, lastSlashIndex).trimEnd();
+            }
+            return prev;
+        });
+
         setShowSuggestions(false);
         setSuggestedCommand('');
         setShowColorPicker(false);
@@ -247,7 +256,7 @@ if (lastSlashIndex !== -1) {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <div className="w-full mx-auto">
 
         <div className="relative">
             <div className="flex items-center border border-gray-300 bg-white rounded-full p-2 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
