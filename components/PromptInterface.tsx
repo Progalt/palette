@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Moon, Sparkles, Sun } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import PromptInput, { PromptInputData } from "./PromptInput";
 

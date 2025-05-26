@@ -1,24 +1,14 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Palette, Copy, Check, Sparkles } from 'lucide-react';
-import { ColourPalette } from '@/components/palette';
 import PromptInterface from '@/components/PromptInterface';
-
-import { GoogleGenAI } from "@google/genai";
-import MiniPaletteShowcase from '@/components/PaletteShowcase';
 import { PromptHint, PromptInputData } from '@/components/PromptInput';
 import { useRouter } from 'next/navigation';
-import GradientOutline from '@/components/GradientOutline';
+import { Sparkles } from 'lucide-react';
 
 const ColorPaletteGenerator = () => {
 
-
-  const [hints, setHints] = useState<PromptHint[] | null>();
-  const [mode, setMode] = useState('light');
-  const [palette, setPalette] = useState<ColourPalette>();
   const [isLoading, setIsLoading] = useState(false);
-  const [copiedColor, setCopiedColor] = useState(null);
   const router = useRouter();
  
 
@@ -59,15 +49,6 @@ const ColorPaletteGenerator = () => {
     }
   };
 
-  const copyToClipboard = async (color : any) => {
-    try {
-      await navigator.clipboard.writeText(color.hex);
-      setCopiedColor(color.hex);
-      setTimeout(() => setCopiedColor(null), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6">
@@ -75,7 +56,6 @@ const ColorPaletteGenerator = () => {
       
         { !isLoading ? <PromptInterface 
           generatePalette={(input : PromptInputData) => {
-            setHints(input.hints);
 
             let brightness : string = "light";
 
@@ -87,8 +67,6 @@ const ColorPaletteGenerator = () => {
                 }
               }
             }
-
-            setMode(brightness);
 
             let safeHints = input.hints != null ? input.hints : [];
             

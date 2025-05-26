@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Plus, Sun, Moon } from 'lucide-react';
-import { Prompt } from 'next/font/google';
 
 export interface PromptHint {
     type : "brand" | "brightness";
@@ -64,23 +63,21 @@ const PromptInput : React.FC<PromptInputProps> = ({
 
     const addPill = (type: string, color?: string): void => {
         if (type === 'brand' && !color) {
-        // For brand, show color picker first
-        setPendingBrandPill({ ...pillTypes[type] });
-        setShowColorPicker(true);
-        setInputValue('');
-        setShowSuggestions(false);
-        setSuggestedCommand('');
-        return;
+            // For brand, show color picker first
+            setPendingBrandPill({ ...pillTypes[type] });
+            setShowColorPicker(true);
+            setShowSuggestions(false);
+            setSuggestedCommand('');
+            return;
         }
 
         const newPill: Pill = {
-        id: Date.now(),
-        type,
-        label: pillTypes[type].label,
-        ...(color && { color })
+            id: Date.now(),
+            type,
+            label: pillTypes[type].label,
+            ...(color && { color })
         };
         setPills([...pills, newPill]);
-        setInputValue('');
         setShowSuggestions(false);
         setSuggestedCommand('');
         setShowColorPicker(false);
@@ -90,7 +87,7 @@ const PromptInput : React.FC<PromptInputProps> = ({
 
     const handleColorSelect = (color: string): void => {
         if (pendingBrandPill) {
-        addPill('brand', color);
+            addPill('brand', color);
         }
     };
 
@@ -146,10 +143,10 @@ if (lastSlashIndex !== -1) {
 
     useEffect(() => {
 
-        let input : PromptInputData = {
+        const input : PromptInputData = {
             text: inputValue,
-            hints: pills.map((pill, idx) => {
-                let h : PromptHint = {
+            hints: pills.map((pill) => {
+                const h : PromptHint = {
                     type: pill.type == "brand" ? "brand" : "brightness",
                     value: getPillValue(pill)
                 };
@@ -164,15 +161,14 @@ if (lastSlashIndex !== -1) {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.key === 'Enter' && suggestedCommand) {
-        e.preventDefault();
-        addPill(suggestedCommand);
+            e.preventDefault();
+            addPill(suggestedCommand);
         } else if (e.key === 'Escape') {
-        setShowSuggestions(false);
-        setSuggestedCommand('');
-        setInputValue('');
+            setShowSuggestions(false);
+            setSuggestedCommand('');
         } else if (e.key === 'Backspace' && inputValue === '' && pills.length > 0) {
-        // Remove last pill when backspace is pressed on empty input
-        removePill(pills[pills.length - 1].id);
+            // Remove last pill when backspace is pressed on empty input
+            removePill(pills[pills.length - 1].id);
         }
     };
 

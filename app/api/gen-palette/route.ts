@@ -6,7 +6,7 @@ import { GoogleGenAI } from "@google/genai";
  const createPrompt = (mode : string, keywords : string, hints : PromptHint[]) => {
 
   let considerBranding : boolean = false; 
-  let brandingColours : string[] = [];
+  const brandingColours : string[] = [];
 
   for (let i = 0; i < hints.length; i++) {
     considerBranding = considerBranding || hints[i].type == "brand";

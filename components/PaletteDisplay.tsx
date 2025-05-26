@@ -2,7 +2,7 @@
 
 import { app } from "@/lib/Firebase";
 import { Check, Copy, Share } from "lucide-react";
-import { getFirestore, getDocs, getDoc, collection, DocumentData, doc } from 'firebase/firestore';
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
 import { ColourPalette } from "@/components/palette";
 import EmbeddablePaletteDemo from "./PaletteShowcase";
