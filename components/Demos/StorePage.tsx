@@ -32,7 +32,7 @@ const StorePageDemo : React.FC<DemoPageProps> = ({
                             style={{
                             color: palette.palette[12].hex
                         }}>
-                            Something you've always wanted! Such a useful item. 
+                            {"Something you've always wanted! Such a useful item."} 
                         </div>
                         <div className="text-xl font-semibold text-right"
                         style={{

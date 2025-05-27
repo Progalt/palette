@@ -5,7 +5,6 @@ import { Check, Copy, Share } from "lucide-react";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
 import { ColourPalette, PaletteEntry } from "@/components/palette";
-import EmbeddablePaletteDemo from "./PaletteShowcase";
 import StorePageDemo from "./Demos/StorePage";
 
 interface PaletteDisplayProps {
