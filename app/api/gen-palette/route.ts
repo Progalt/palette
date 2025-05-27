@@ -45,11 +45,12 @@ PSYCHOLOGY & ASSOCIATIONS:
 - Cultural and contextual color meanings
 
 MODERN DESIGN PRINCIPLES:
-- ${mode === 'light' ? 'Light mode: bright backgrounds, darker text, subtle shadows' : 'Dark mode: dark backgrounds, light text, elevated surfaces'}
+- ${mode === 'light' ? 'Light mode: bright backgrounds, darker text, subtle shadows, hover colors are darker' : 'Dark mode: dark backgrounds, light text, elevated surfaces, hover colors are lighter'}
 - Contemporary color trends and digital-first palettes
 - Brand-appropriate color psychology
 - When prompted with Warm, grey values should be warm not cool
 - When prompted with Cool, grey values should be cool not warm
+- Secondary colors should be more muted and less saturated
 
 ${considerBranding ? brandingSystemPrompt : ""}
 

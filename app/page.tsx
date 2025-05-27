@@ -6,6 +6,7 @@ import { PromptHint, PromptInputData } from '@/components/PromptInput';
 import { useRouter } from 'next/navigation';
 import { Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MenuBar from '@/components/MenuBar';
 
 const fadeTransition = {
   initial: { opacity: 0, scale: 0.95 },
@@ -61,7 +62,11 @@ const ColorPaletteGenerator = () => {
         bg-[radial-gradient(circle,#73737350_1px,transparent_1px)] 
         bg-[size:10px_10px]
         [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_25%,transparent_80%)]" />
-      <div className="max-w-4xl md:min-w-3xl">
+      <div className="w-full absolute top-0">
+        <MenuBar></MenuBar>
+      </div>
+      
+      <div className="w-full sm:w-auto sm:max-w-4xl sm:min-w-3xl">
       <AnimatePresence mode="wait">
         {!isLoading ? (
           <motion.div key="interface" {...fadeTransition}>
