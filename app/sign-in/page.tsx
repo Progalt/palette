@@ -46,7 +46,7 @@ export default function SignIn() {
                             </div>
                         </div>
                         <div className="text-center text-sm">
-                            <p>Don't have an account? 
+                            <p>P{"Don't have an account?"}
                                 <span className="text-blue-500 cursor-pointer ml-2">
                                     Sign up now
                                 </span>

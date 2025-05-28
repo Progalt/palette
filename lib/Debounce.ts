@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export function useDebouncedEffect(callback: () => void, deps: any[], delay: number) {
+export function useDebouncedEffect(callback: () => void, deps: unknown[], delay: number) {
   const handler = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

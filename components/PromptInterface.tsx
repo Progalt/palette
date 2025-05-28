@@ -8,21 +8,9 @@ interface PromptInterfaceProps {
   isLoading: boolean;
 }
 
-const iconAnim = {
-  initial: { rotate: 0, scale: 1 },
-  hover: {
-    rotate: 180,
-    scale: 1.25,
-    transition: {
-      duration: 0.75, // duration in seconds
-      type: "spring",
-    },
-  },
-};
 
 const PromptInterface: React.FC<PromptInterfaceProps> = ({
   generatePalette,
-  isLoading,
 }) => {
   const [promptInput, setPromptInput] = useState<PromptInputData>({
     text: "",
