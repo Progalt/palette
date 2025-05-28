@@ -1,4 +1,3 @@
-"use client";
 
 import React from 'react';
 import MenuBar from '@/components/MenuBar';
@@ -13,7 +12,7 @@ const Home = () => {
         bg-[size:10px_10px]
         [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_25%,transparent_80%)]" />
       <div className="w-full absolute top-0">
-        <MenuBar></MenuBar>
+        <MenuBar />
       </div>
       
       <MainPageHero />
