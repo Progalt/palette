@@ -204,8 +204,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
     };
   }, [isDraggingHue, isDraggingSV, updateHue, updateSV]);
 
-  const currentRgb = hsvToRgb(selectedColor);
-
   return (
     <div className="p-2 max-w-md mx-auto bg-white rounded-lg shadow-lg border">
 
