@@ -28,7 +28,7 @@ const HeroPrompt : React.FC<HeroPromptProps>= ({ onGenerate }) => {
                         ref={inputRef}
                         type="text"
                         placeholder={
-                        `What's the vibe?`
+                        `What's the vision?`
                         }
                         className="w-full flex-1 text-lg outline-none bg-transparent text-gray-700"
                     />

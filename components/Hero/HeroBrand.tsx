@@ -69,9 +69,9 @@ const HeroBrandColours : React.FC<HeroBrandColoursProps> = ({ colours, addNewBra
                     <></>
                 }
                 <Tooltip text="Add brand colour">
-                    <button className="flex items-center cursor-pointer"
+                    <button className="flex items-center cursor-pointer transition-all duration-300 group"
                         onClick={() => addNewBrandColour()}>
-                        <Plus className="text-gray-500"/>
+                        <Plus className="text-gray-500 group-hover:text-gray-600"/>
                     </button>
                 </Tooltip>
             </div>

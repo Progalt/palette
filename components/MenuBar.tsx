@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,19 +13,15 @@ const MenuBar: React.FC = ({}) => {
 
   return (
     <>
-      <div className="hidden md:flex flex-row justify-end gap-24 p-6 px-12">
-        <button className="px-6 py-2 hover:cursor-pointer">About</button>
-        <button className="px-6 py-2 hover:cursor-pointer">Pricing</button>
-        <div className=" p-[2px] rounded-[10px] bg-gradient-to-br to-85% from-indigo-300 to-indigo-800">
-          <button
-            onClick={() => {
-              router.push("/sign-in");
-            }}
-            className="px-6 py-2 hover:cursor-pointer bg-indigo-500 text-white rounded-lg"
-          >
-            Sign In
-          </button>
+      <div>
+        <div className="hidden md:flex flex-row justify-center gap-24 p-6 px-12 bg-white bg-radial-[at_50%_100%] from-indigo-200 to-white">
+          <Link href={"/pricing"}>About</Link>
+          <Link href={"/pricing"}>Pricing</Link>
+          
         </div>
+        <div 
+          className="w-full h-[2px] bg-gradient-to-r from-transparent from-10% to-90% to-transparent via-gray-300"
+        />
       </div>
 
       {/* Mobile Menu */}

@@ -8,11 +8,13 @@ interface MousePosition {
 interface GlowBorderProps {
   children?: React.ReactElement;
   borderSize?: number;
+  className? : string; 
 }
 
 const GlowBorder: React.FC<GlowBorderProps> = ({
   children,
   borderSize = 2,
+  className
 }) => {
   const [mousePos, setMousePos] = useState<MousePosition>({ x: 0, y: 0 });
   const [isNear, setIsNear] = useState<boolean>(false);
@@ -43,7 +45,7 @@ const GlowBorder: React.FC<GlowBorderProps> = ({
   }, []);
 
   return (
-    <div className="">
+    <div>
       <div
         ref={cardRef}
         className="relative bg-gray-300 rounded-lg overflow-hidden"
@@ -82,7 +84,7 @@ const GlowBorder: React.FC<GlowBorderProps> = ({
             }}
           />
         </div>
-        <div className="relative z-10">{children}</div>
+        <div className={`relative z-10 ${className}`}>{children}</div>
       </div>
     </div>
   );

@@ -27,10 +27,6 @@ const MainPageHero : React.FC = ({
     
     try {
 
-      
-      console.log(keywords);
-      console.log(mode);
-      console.log(hints);
 
       const response = await fetch('/api/gen-palette', {
         method: 'POST',
@@ -46,8 +42,6 @@ const MainPageHero : React.FC = ({
       });
       const paletteId = await response.json();
       
-      // setPalette(JSON.parse(paletteData.result));
-
       router.push(`/p/${paletteId.result}`);
 
       
@@ -60,7 +54,7 @@ const MainPageHero : React.FC = ({
         <div className="w-full sm:w-auto sm:max-w-4xl sm:min-w-3xl">
         <AnimatePresence mode="wait">
             {!isLoading ? (
-            <motion.div key="interface" {...fadeTransition}>
+            <motion.div key="interface" {...fadeTransition} className="p-2 sm:p-0">
                 <HeroPrompt onGenerate={(prompt : string, mode : string, hints : PromptHint[]) => {
                   generatePalette(prompt, mode, hints);
                 }}/>
