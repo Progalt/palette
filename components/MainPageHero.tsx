@@ -1,11 +1,10 @@
 "use client";
 
-import PromptInterface from "./PromptInterface";
 import { Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PromptHint, PromptInputData } from "./PromptInput";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import HeroPrompt, { PromptHint } from "./Hero/HeroPrompt";
 
 const fadeTransition = {
   initial: { opacity: 0, scale: 0.95 },
@@ -62,21 +61,9 @@ const MainPageHero : React.FC = ({
         <AnimatePresence mode="wait">
             {!isLoading ? (
             <motion.div key="interface" {...fadeTransition}>
-                <PromptInterface 
-                generatePalette={(input : PromptInputData) => {
-                    let brightness : string = "light";
-                    if (input.hints != null) {
-                    for (let i = 0; i < input.hints.length; i++) {
-                        if (input.hints[i].type === "brightness") {
-                        brightness = input.hints[i].value;
-                        }
-                    }
-                    }
-                    const safeHints = input.hints != null ? input.hints : [];
-                    generatePalette(input.text, brightness, safeHints); 
-                }}
-                isLoading={isLoading}
-                />
+                <HeroPrompt onGenerate={(prompt : string, mode : string, hints : PromptHint[]) => {
+                  generatePalette(prompt, mode, hints);
+                }}/>
             </motion.div>
             ) : (
             <motion.div

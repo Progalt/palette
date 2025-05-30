@@ -1,28 +1,20 @@
-import { PromptHint } from "@/components/PromptInput";
+
+import { ColourPalette } from "@/components/palette";
 import { db } from "@/lib/FirebaseAdmin";
 import { GoogleGenAI } from "@google/genai";
 
+const createPrompt = (prompt : string, mode : string, oldPalette : string) => {
 
- const createPrompt = (mode : string, keywords : string, hints : PromptHint[]) => {
-
-  let considerBranding : boolean = false; 
-  const brandingColours : string[] = [];
-
-  for (let i = 0; i < hints.length; i++) {
-    considerBranding = considerBranding || hints[i].type == "brand";
-    if (hints[i].type == "brand") {
-      brandingColours.push(hints[i].value);
+     let parsedOldPalette: ColourPalette | null = null;
+  if (oldPalette) {
+    try {
+      parsedOldPalette = typeof oldPalette === 'string' ? JSON.parse(oldPalette) : oldPalette;
+    } catch (e) {
+      console.warn('Failed to parse old palette:', e);
     }
   }
 
-  const brandingSystemPrompt = `
-  BRANDING: 
-  - You should use the branding colors ${brandingColours}
-  - These branding colours should be incorperated into the color choices 
-  - These colours should take the place of primary if it makes sense
-  `;
-
-  const brandingUserPrompt = `- Utilise the branding colours of ${brandingColours} in the palette`
+  console.log(parsedOldPalette);
 
     return {
       system: `You are an expert color theorist and designer with deep knowledge of:
@@ -52,7 +44,6 @@ MODERN DESIGN PRINCIPLES:
 - When prompted with Cool, grey values should be cool not warm
 - Secondary colors should be more muted and less saturated
 
-${considerBranding ? brandingSystemPrompt : ""}
 
 COLORS TO GENERATE: 
 - Primary
@@ -70,6 +61,22 @@ COLORS TO GENERATE:
 - Text Secondary 
 - Text Muted
 
+CRITICAL REMIX RULES:
+1. You MUST start with the exact colors from the original palette
+2. You MUST keep colors unchanged unless the modification prompt specifically mentions them
+3. When a color is mentioned for change, only modify that specific color
+4. All other colors should remain EXACTLY the same hex values
+5. Only adjust colors that are explicitly requested to be changed
+6. If a colour has another state like Hover adjust that to match the main colour
+
+ORIGINAL PALETTE (PRESERVE THESE UNLESS EXPLICITLY TOLD TO CHANGE):
+${parsedOldPalette?.palette.map(color => `${color.name}: ${color.hex}`).join('\n')}
+
+MODIFICATION ANALYSIS:
+- Read the modification prompt carefully
+- Identify which specific colors (if any) need to be changed
+- Keep all other colors at their original hex values
+- If the prompt is vague (like "make it brighter"), only adjust saturation/lightness by small amounts (5-15%)
 Generate a cohesive color palette optimized for ${mode} mode interfaces. Return ONLY valid JSON, without newlines, in this exact format:
 {
   "palette": [
@@ -84,17 +91,30 @@ Generate a cohesive color palette optimized for ${mode} mode interfaces. Return 
   "accessibility": "WCAG compliance notes"
 }`,
       
-      user: `Create a ${mode} mode color palette inspired by these keywords: "${keywords}"
+      user: `MODIFY this specific palette based on: "${prompt}"
 
-Requirements:
-- Reflect the mood and aesthetic of: ${keywords}
-- Optimize for ${mode} mode interfaces
-- Ensure excellent contrast and readability
-- Create visual harmony between all colors
-- Consider the psychological impact of each color choice
-${considerBranding ? brandingUserPrompt : ""}
+STARTING PALETTE (preserve unless explicitly changing):
+${parsedOldPalette?.palette.map(color => `${color.name}: ${color.hex} (${color.usage})`).join('\n')}
 
-Focus on creating a palette that captures the essence of "${keywords}" while maintaining professional design standards.`
+INSTRUCTIONS:
+1. Copy the original palette exactly
+2. Analyze the modification request: "${prompt}"
+3. Only change colors that are specifically mentioned or clearly implied
+4. For example:
+   - "make primary red" = change only primary color to red
+   - "darker background" = darken only background color
+   - "more vibrant" = increase saturation slightly on accent colors only
+   - "warmer" = adjust temperature on main colors only
+5. Other color states should change if their base is referenced
+6. For Example: 
+    - If Primary is changed also change Primary Hover
+7. Take the current name and change it if needed to reflect the new palette: ${parsedOldPalette?.theme}
+
+PRESERVE these exact hex values unless explicitly modifying them:
+${parsedOldPalette?.palette.map(color => color.hex).join(', ')}
+
+Return the modified palette with preserved colors kept at their original hex values.
+`
     };
   };
 
@@ -103,20 +123,8 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function POST(request: Request) {
   try {
     // Parse the JSON body from the incoming request.
-    const { keywords, mode, hints } = await request.json();
+    const { oldPalette, prompt, mode, originalID } = await request.json();
 
-    // Validate 'keywords' to ensure it's a string.
-    if (typeof keywords !== 'string') {
-      return new Response(
-        JSON.stringify({ error: 'The "keywords" parameter must be a string.' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-    }
 
     // Validate 'mode' to ensure it's either "light" or "dark".
     if (typeof mode !== 'string' || (mode !== 'light' && mode !== 'dark')) {
@@ -131,9 +139,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const safeHints : PromptHint[] = hints != null ? hints : [];
-
-    const prompts = createPrompt(mode, keywords, safeHints);
+     const prompts = createPrompt(prompt, mode, oldPalette);
 
     const response = await genAI.models.generateContent({
         model: "gemini-2.0-flash",
@@ -158,8 +164,10 @@ export async function POST(request: Request) {
         } 
     } 
 
+
     const finalJSON = JSON.parse(combinedText);
     finalJSON.mode = mode; 
+    finalJSON.remixed = originalID;
 
     const docRef = await db.collection("palettes").add(finalJSON);
 
@@ -173,7 +181,7 @@ export async function POST(request: Request) {
       }
     );
   } catch (error : unknown) { 
-    console.error('Error processing request in /api/gen-palette:', error);
+    console.error('Error processing request in /api/remix-palette:', error);
 
     return new Response(
       JSON.stringify({ error: 'Internal Server Error', details: error }),
