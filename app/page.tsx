@@ -2,12 +2,6 @@ import React from 'react';
 import MenuBar from '@/components/MenuBar';
 import MainPageHero from '@/components/MainPageHero';
 
-import { Caveat_Brush } from 'next/font/google'
-const caveat = Caveat_Brush({ 
-  subsets: ['latin'],
-  weight: ['400' ] 
-})
-
 const Home = () => {
   return (
     <div className="relative min-h-screen flex flex-col ">

@@ -100,7 +100,7 @@ export default function Pricing() {
 
                             <div className="flex flex-row gap-4 my-2">
                                 <Check />
-                                <p>Remix existing themes if they aren't quite right</p>
+                                <p>{`Remix existing themes if they aren't quite right`}</p>
                             </div>
 
                             <div className="flex flex-row gap-4 my-2">
