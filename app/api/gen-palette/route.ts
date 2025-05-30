@@ -1,4 +1,5 @@
-import { PromptHint } from "@/components/PromptInput";
+
+import { PromptHint } from "@/components/Hero/HeroPrompt";
 import { db } from "@/lib/FirebaseAdmin";
 import { GoogleGenAI } from "@google/genai";
 
