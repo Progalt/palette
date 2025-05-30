@@ -35,7 +35,7 @@ const PaletteDisplay: React.FC<PaletteDisplayProps> = ({ id }) => {
       } else {
       }
 
-      let p : ColourPalette = docSnap.data() as ColourPalette; 
+      const p : ColourPalette = docSnap.data() as ColourPalette; 
 
       if (p.remixed) {
         const docRef2 = doc(db, "palettes", p.remixed);

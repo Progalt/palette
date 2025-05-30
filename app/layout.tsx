@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import CodeBox from "@/components/Base/CodeBox";
 
 
 const geistMono = Geist_Mono({
