@@ -15,10 +15,11 @@ interface RGB {
 
 interface ColorPickerProps {
     onColorChange : (hex : string) => void; 
-    color : string; 
+    color : string;
+    onClose?: () => void;
 }
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color, onClose }) => {
   const [selectedColor, setSelectedColor] = useState<HSV >({ h: 0, s: 100, v: 100 });
   const [hexInput, setHexInput] = useState('#FF0000');
   const [isDraggingHue, setIsDraggingHue] = useState(false);
@@ -26,8 +27,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
   
   const hueRef = useRef<HTMLDivElement>(null);
   const svRef = useRef<HTMLDivElement>(null);
-
- 
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Color conversion utilities
   const hsvToRgb = useCallback((hsv: HSV): RGB => {
@@ -102,6 +102,20 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
     return { h, s, v };
   }, []);
 
+  // Handle click outside to close
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
   // Update hex input when color changes
   useEffect(() => {
     const rgb = hsvToRgb(selectedColor);
@@ -126,7 +140,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
 
   useDebouncedEffect(() => {
     onColorChange(hexInput);
-  }, [ hexInput ], 100);
+  }, [ hexInput ], 50);
 
   // Handle hue slider
   const handleHueMouseDown = (e: React.MouseEvent) => {
@@ -205,8 +219,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
   }, [isDraggingHue, isDraggingSV, updateHue, updateSV]);
 
   return (
-    <div className="p-2 max-w-md mx-auto bg-white rounded-lg shadow-lg border">
-
+    <div 
+      ref={containerRef}
+      className=""
+    >
       <div className="flex flex-col gap-1">
 
         {/* Saturation/Value Picker */}
@@ -251,7 +267,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onColorChange, color }) => {
       </div>
 
       {/* Color Information */}
-      <div className="mt-6 space-y-3">
+      <div className="mt-1 space-y-3">
         <div className="flex flex-row items-center gap-3">
           <label className="block text-sm font-medium text-gray-700">Hex</label>
           <input
